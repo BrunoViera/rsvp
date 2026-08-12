@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { isRsvpOpen } from "@/lib/event-timing";
+import type { EventRow } from "@/lib/types";
 
 export async function submitRsvp(token: string, formData: FormData) {
   const status = String(formData.get("status") || "");
@@ -14,6 +16,16 @@ export async function submitRsvp(token: string, formData: FormData) {
   }
 
   const supabase = await createClient();
+
+  const { data: guest } = await supabase
+    .from("guests")
+    .select("event:events(*)")
+    .eq("rsvp_token", token)
+    .single<{ event: EventRow }>();
+
+  if (!guest?.event || !isRsvpOpen(guest.event)) {
+    throw new Error("Las confirmaciones para este evento ya cerraron.");
+  }
 
   const { error } = await supabase
     .from("guests")
