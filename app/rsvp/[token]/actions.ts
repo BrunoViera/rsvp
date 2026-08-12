@@ -10,6 +10,8 @@ export async function submitRsvp(token: string, formData: FormData) {
   const phone = String(formData.get("phone") || "").trim() || null;
   const description =
     String(formData.get("description") || "").trim() || null;
+  const dietary_restrictions =
+    String(formData.get("dietary_restrictions") || "").trim() || null;
 
   if (status !== "confirmed" && status !== "declined") {
     throw new Error("Estado de RSVP inválido.");
@@ -33,6 +35,7 @@ export async function submitRsvp(token: string, formData: FormData) {
       rsvp_status: status,
       phone,
       description,
+      dietary_restrictions,
       responded_at: new Date().toISOString(),
     })
     .eq("rsvp_token", token);
