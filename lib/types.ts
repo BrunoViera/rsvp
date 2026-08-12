@@ -9,6 +9,9 @@ export interface EventRow {
   location: string | null;
   description: string | null;
   slug: string;
+  duration_hours: number;
+  cover_photo_url: string | null;
+  gift_info: string | null;
   created_at: string;
 }
 
