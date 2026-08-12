@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { EventRow } from "@/lib/types";
+import type { EventRow, GuestRow } from "@/lib/types";
+import GuestList from "./guest-list";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Sin fecha";
@@ -24,6 +25,13 @@ export default async function EventoDetallePage({
     .select("*")
     .eq("id", id)
     .single<EventRow>();
+
+  const { data: guests } = await supabase
+    .from("guests")
+    .select("*")
+    .eq("event_id", id)
+    .order("created_at", { ascending: true })
+    .returns<GuestRow[]>();
 
   if (!event) notFound();
 
@@ -74,9 +82,7 @@ export default async function EventoDetallePage({
         </div>
       </div>
 
-      <div className="card mt-6 text-sm text-ink/60">
-        La lista de invitados se agrega en el próximo paso (Issue #3).
-      </div>
+      <GuestList eventId={event.id} guests={guests ?? []} />
     </div>
   );
 }
