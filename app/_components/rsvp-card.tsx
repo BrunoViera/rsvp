@@ -124,6 +124,18 @@ export default async function RsvpCard({
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium text-ink/80">
+                Restricciones alimentarias / alergias (opcional)
+              </label>
+              <input
+                type="text"
+                name="dietary_restrictions"
+                defaultValue={guest.dietary_restrictions ?? ""}
+                placeholder="Ej: vegetariano, celíaco, alergia a los frutos secos"
+                className="field"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-ink/80">
                 Un mensaje para el cumpleañero/a (opcional)
               </label>
               <textarea

@@ -21,6 +21,7 @@ export interface GuestRow {
   name: string;
   phone: string | null;
   description: string | null;
+  dietary_restrictions: string | null;
   rsvp_status: RsvpStatus;
   rsvp_token: string;
   source: GuestSource;

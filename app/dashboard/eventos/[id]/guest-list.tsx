@@ -75,6 +75,11 @@ export default function GuestList({
               {guest.phone && (
                 <p className="text-xs text-ink/50">{guest.phone}</p>
               )}
+              {guest.dietary_restrictions && (
+                <p className="text-xs text-coral/80">
+                  🍽️ {guest.dietary_restrictions}
+                </p>
+              )}
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span
