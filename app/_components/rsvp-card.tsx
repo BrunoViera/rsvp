@@ -1,6 +1,7 @@
 import type { EventRow, GuestRow } from "@/lib/types";
 import { geocodeAddress } from "@/lib/geocode";
 import { buildGoogleCalendarUrl, buildIcsDataUri, buildDirectionsUrl } from "@/lib/calendar";
+import { isRsvpOpen } from "@/lib/event-timing";
 import MapEmbed from "./map-embed";
 
 function formatFecha(iso: string | null) {
@@ -29,6 +30,7 @@ export default async function RsvpCard({
   const point = event.location ? await geocodeAddress(event.location) : null;
   const googleCalendarUrl = buildGoogleCalendarUrl(event);
   const icsDataUri = buildIcsDataUri(event);
+  const rsvpOpen = isRsvpOpen(event);
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
       {event.cover_photo_url && (
@@ -102,54 +104,62 @@ export default async function RsvpCard({
 
         {guest.rsvp_status !== "pending" && (
           <p className="mt-2 text-sm text-sage">
-            {STATUS_TEXT[guest.rsvp_status]}. Podés cambiar tu respuesta abajo
-            si es necesario.
+            {STATUS_TEXT[guest.rsvp_status]}
+            {rsvpOpen ? ". Podés cambiar tu respuesta abajo si es necesario." : "."}
           </p>
         )}
 
-        <form action={action} className="mt-4 flex flex-col gap-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-ink/80">
-              Teléfono (opcional)
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              defaultValue={guest.phone ?? ""}
-              className="field"
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-ink/80">
-              Un mensaje para el cumpleañero/a (opcional)
-            </label>
-            <textarea
-              name="description"
-              rows={3}
-              defaultValue={guest.description ?? ""}
-              className="field"
-            />
-          </div>
+        {rsvpOpen ? (
+          <form action={action} className="mt-4 flex flex-col gap-4">
+            <div>
+              <label className="mb-1 block text-sm font-medium text-ink/80">
+                Teléfono (opcional)
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                defaultValue={guest.phone ?? ""}
+                className="field"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-ink/80">
+                Un mensaje para el cumpleañero/a (opcional)
+              </label>
+              <textarea
+                name="description"
+                rows={3}
+                defaultValue={guest.description ?? ""}
+                className="field"
+              />
+            </div>
 
-          <div className="flex gap-3">
-            <button
-              type="submit"
-              name="status"
-              value="confirmed"
-              className="btn-primary flex-1"
-            >
-              Sí, voy 🎉
-            </button>
-            <button
-              type="submit"
-              name="status"
-              value="declined"
-              className="btn-secondary flex-1"
-            >
-              No puedo ir
-            </button>
+            <div className="flex gap-3">
+              <button
+                type="submit"
+                name="status"
+                value="confirmed"
+                className="btn-primary flex-1"
+              >
+                Sí, voy 🎉
+              </button>
+              <button
+                type="submit"
+                name="status"
+                value="declined"
+                className="btn-secondary flex-1"
+              >
+                No puedo ir
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="mt-4 rounded-xl bg-ink/5 px-4 py-3 text-sm text-ink/60">
+            Las confirmaciones para este evento ya cerraron.
+            {guest.rsvp_status === "pending" &&
+              " No llegaste a responder a tiempo."}
           </div>
-        </form>
+        )}
       </div>
     </div>
   );
