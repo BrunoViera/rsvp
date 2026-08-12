@@ -81,6 +81,13 @@ export default async function EventoDetallePage({
           <span className="font-medium text-ink/60">Lista compartida: </span>
           <CopyLinkButton path={`/e/${event.slug}`} label="Copiar link de la lista" />
         </div>
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-ink/60">Confirmados: </span>
+          <CopyLinkButton
+            path={`/e/${event.slug}/confirmados`}
+            label="Copiar link de confirmados"
+          />
+        </div>
       </div>
 
       <GuestList eventId={event.id} guests={guests ?? []} />
