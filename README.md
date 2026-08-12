@@ -17,7 +17,7 @@ Este PR trae el **scaffold base** del proyecto: configuración, esquema de base 
 ```bash
 npm install
 cp .env.local.example .env.local
-# completar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY
+# completar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 npm run dev
 ```
 
@@ -26,12 +26,12 @@ npm run dev
 1. Crear un proyecto en [supabase.com](https://supabase.com).
 2. Ir a **SQL Editor** y ejecutar el contenido de [`supabase/schema.sql`](./supabase/schema.sql).
 3. En **Authentication → URL Configuration**, agregar la URL del sitio (localhost en dev, el dominio de Vercel en producción) para que los magic links redirijan bien.
-4. Copiar la **Project URL** y la **anon public key** desde **Project Settings → API** hacia las variables de entorno.
+4. Copiar la **Project URL** y la **Publishable key** (`sb_publishable_...`) desde **Project Settings → API Keys** hacia las variables de entorno. (Si tu proyecto todavía no tiene una publishable key, hacé click en "Create new API Keys" en esa misma pantalla.)
 
 ## Deploy en Vercel
 
 1. Importar este repositorio en [vercel.com/new](https://vercel.com/new).
-2. Agregar las variables de entorno (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL` con el dominio final).
+2. Agregar las variables de entorno (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL` con el dominio final).
 3. Deploy. Cada Pull Request genera automáticamente un preview.
 
 ## Estructura
