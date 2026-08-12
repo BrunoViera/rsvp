@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, GuestRow } from "@/lib/types";
 import GuestList from "./guest-list";
+import RsvpStats from "./rsvp-stats";
 import CopyLinkButton from "./copy-link-button";
 
 function formatFecha(iso: string | null) {
@@ -89,6 +90,8 @@ export default async function EventoDetallePage({
           />
         </div>
       </div>
+
+      <RsvpStats guests={guests ?? []} />
 
       <GuestList eventId={event.id} guests={guests ?? []} />
     </div>
