@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, GuestRow } from "@/lib/types";
 import GuestList from "./guest-list";
+import CopyLinkButton from "./copy-link-button";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Sin fecha";
@@ -76,9 +77,9 @@ export default async function EventoDetallePage({
             {event.gift_info}
           </div>
         )}
-        <div>
-          <span className="font-medium text-ink/60">Link de la lista: </span>
-          <code className="text-xs">/e/{event.slug}</code>
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-ink/60">Lista compartida: </span>
+          <CopyLinkButton path={`/e/${event.slug}`} label="Copiar link de la lista" />
         </div>
       </div>
 
