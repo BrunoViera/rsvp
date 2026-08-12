@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions";
 
@@ -18,6 +19,9 @@ export default async function DashboardLayout({
           Cumple RSVP
         </span>
         <div className="flex items-center gap-4">
+          <Link href="/dashboard/invitaciones" className="text-sm text-ink/70 hover:text-ink">
+            Invitaciones
+          </Link>
           {user?.email && (
             <span className="text-sm text-ink/60">{user.email}</span>
           )}
