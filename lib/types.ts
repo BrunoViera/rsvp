@@ -28,3 +28,12 @@ export interface GuestRow {
   responded_at: string | null;
   created_at: string;
 }
+
+export interface CollaboratorRow {
+  id: string;
+  event_id: string;
+  invited_email: string;
+  user_id: string | null;
+  status: "pending" | "accepted";
+  created_at: string;
+}

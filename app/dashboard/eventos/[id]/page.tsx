@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { EventRow, GuestRow } from "@/lib/types";
+import type { EventRow, GuestRow, CollaboratorRow } from "@/lib/types";
 import GuestList from "./guest-list";
 import RsvpStats from "./rsvp-stats";
 import CopyLinkButton from "./copy-link-button";
+import Collaborators from "./collaborators";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Sin fecha";
@@ -34,6 +35,13 @@ export default async function EventoDetallePage({
     .eq("event_id", id)
     .order("created_at", { ascending: true })
     .returns<GuestRow[]>();
+
+  const { data: collaborators } = await supabase
+    .from("event_collaborators")
+    .select("*")
+    .eq("event_id", id)
+    .order("created_at", { ascending: true })
+    .returns<CollaboratorRow[]>();
 
   if (!event) notFound();
 
@@ -94,6 +102,8 @@ export default async function EventoDetallePage({
       <RsvpStats guests={guests ?? []} />
 
       <GuestList eventId={event.id} guests={guests ?? []} />
+
+      <Collaborators eventId={event.id} collaborators={collaborators ?? []} />
     </div>
   );
 }
