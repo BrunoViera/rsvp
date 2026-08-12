@@ -1,4 +1,7 @@
 import type { EventRow, GuestRow } from "@/lib/types";
+import { geocodeAddress } from "@/lib/geocode";
+import { buildGoogleCalendarUrl, buildIcsDataUri, buildDirectionsUrl } from "@/lib/calendar";
+import MapEmbed from "./map-embed";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Fecha a confirmar";
@@ -14,7 +17,7 @@ const STATUS_TEXT: Record<GuestRow["rsvp_status"], string> = {
   declined: "Avisaste que no podés ir",
 };
 
-export default function RsvpCard({
+export default async function RsvpCard({
   event,
   guest,
   action,
@@ -23,6 +26,9 @@ export default function RsvpCard({
   guest: GuestRow;
   action: (formData: FormData) => void;
 }) {
+  const point = event.location ? await geocodeAddress(event.location) : null;
+  const googleCalendarUrl = buildGoogleCalendarUrl(event);
+  const icsDataUri = buildIcsDataUri(event);
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
       {event.cover_photo_url && (
@@ -58,6 +64,34 @@ export default function RsvpCard({
             {event.gift_info}
           </div>
         )}
+      </div>
+
+      {point && (
+        <div className="flex flex-col gap-3">
+          <MapEmbed point={point} />
+          <a
+            href={buildDirectionsUrl(event.location ?? "")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary text-center"
+          >
+            Cómo llegar
+          </a>
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <a
+          href={googleCalendarUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-secondary flex-1 text-center"
+        >
+          + Google Calendar
+        </a>
+        <a href={icsDataUri} download="evento.ics" className="btn-secondary flex-1 text-center">
+          + Descargar .ics
+        </a>
       </div>
 
       <div className="card">
