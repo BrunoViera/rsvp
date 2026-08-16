@@ -47,7 +47,14 @@ export default async function EventoDetallePage({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <Link
+        href="/dashboard"
+        className="inline-flex items-center gap-1 text-sm text-ink/60 hover:text-ink"
+      >
+        ← Volver al dashboard
+      </Link>
+
+      <div className="mt-4 flex items-center justify-between">
         <h1 className="font-display text-3xl font-semibold text-ink">
           {event.name}
         </h1>

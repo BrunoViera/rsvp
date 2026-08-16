@@ -15,10 +15,16 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen">
       <header className="flex items-center justify-between border-b border-line px-6 py-4">
-        <span className="font-display text-lg font-semibold text-ink">
+        <Link
+          href="/dashboard"
+          className="font-display text-lg font-semibold text-ink hover:text-ink/80"
+        >
           Cumple RSVP
-        </span>
+        </Link>
         <div className="flex items-center gap-4">
+          <Link href="/dashboard" className="text-sm text-ink/70 hover:text-ink">
+            Mis eventos
+          </Link>
           <Link href="/dashboard/invitaciones" className="text-sm text-ink/70 hover:text-ink">
             Invitaciones
           </Link>

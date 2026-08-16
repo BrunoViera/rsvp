@@ -23,7 +23,7 @@ Con este approach corrés Postgres + Auth + Storage de Supabase en Docker, en tu
 brew install supabase/tap/supabase
 
 # 2. Instalar dependencias del proyecto
-npm install
+pnpm install
 
 # 3. Inicializar Supabase en el repo (crea supabase/config.toml)
 #    Si ya existe supabase/config.toml, saltear este paso.
@@ -58,7 +58,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 Después corré la app como siempre:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ### Cómo entrar al dashboard (login local)
