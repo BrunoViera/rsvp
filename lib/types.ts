@@ -7,6 +7,8 @@ export interface EventRow {
   name: string;
   event_date: string | null;
   location: string | null;
+  latitude: number | null;
+  longitude: number | null;
   description: string | null;
   slug: string;
   duration_hours: number;

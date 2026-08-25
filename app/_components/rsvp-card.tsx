@@ -27,7 +27,15 @@ export default async function RsvpCard({
   guest: GuestRow;
   action: (formData: FormData) => void;
 }) {
-  const point = event.location ? await geocodeAddress(event.location) : null;
+  // Eventos nuevos ya traen coordenadas exactas (elegidas con Google Places
+  // al crear/editar). Para eventos viejos, sin lat/lng guardados, hacemos un
+  // último intento con Nominatim para no perder el mapa/dirección.
+  const point =
+    event.latitude != null && event.longitude != null
+      ? { lat: event.latitude, lon: event.longitude }
+      : event.location
+        ? await geocodeAddress(event.location)
+        : null;
   const googleCalendarUrl = buildGoogleCalendarUrl(event);
   const icsDataUri = buildIcsDataUri(event);
   const rsvpOpen = isRsvpOpen(event);
@@ -68,11 +76,14 @@ export default async function RsvpCard({
         )}
       </div>
 
-      {point && (
+      {event.location && (
         <div className="flex flex-col gap-3">
-          <MapEmbed point={point} />
+          {point && <MapEmbed point={point} />}
           <a
-            href={buildDirectionsUrl(event.location ?? "")}
+            href={buildDirectionsUrl(
+              event.location ?? "",
+              point ? { lat: point.lat, lng: point.lon } : null
+            )}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary text-center"
