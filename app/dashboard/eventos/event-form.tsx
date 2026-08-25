@@ -1,4 +1,5 @@
 import type { EventRow } from "@/lib/types";
+import LocationPicker from "@/app/_components/location-picker";
 
 function toDateInputValue(iso: string | null): string {
   if (!iso) return "";
@@ -56,12 +57,13 @@ export default function EventForm({
         <label className="mb-1 block text-sm font-medium text-ink/80">
           Lugar
         </label>
-        <input
-          type="text"
-          name="location"
-          defaultValue={event?.location ?? ""}
-          placeholder="Salón Los Aromos, Av. Siempre Viva 742"
-          className="field"
+        <LocationPicker
+          fieldName="location"
+          latFieldName="latitude"
+          lngFieldName="longitude"
+          defaultAddress={event?.location}
+          defaultLat={event?.latitude}
+          defaultLng={event?.longitude}
         />
       </div>
 

@@ -1,23 +1,32 @@
+"use client";
+
+import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 import type { GeoPoint } from "@/lib/geocode";
 
-const DELTA = 0.006; // ~600m de margen alrededor del punto
+const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID || "DEMO_MAP_ID";
 
 export default function MapEmbed({ point }: { point: GeoPoint }) {
-  const bbox = [
-    point.lon - DELTA,
-    point.lat - DELTA,
-    point.lon + DELTA,
-    point.lat + DELTA,
-  ].join(",");
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  if (!apiKey) return null;
 
-  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${point.lat},${point.lon}`;
+  const center = { lat: point.lat, lng: point.lon };
 
   return (
-    <iframe
-      title="Ubicación del evento"
-      src={src}
-      className="h-56 w-full rounded-card border border-line"
-      loading="lazy"
-    />
+    <div className="h-56 w-full overflow-hidden rounded-card border border-line">
+      <APIProvider apiKey={apiKey}>
+        <Map
+          mapId={MAP_ID}
+          defaultCenter={center}
+          defaultZoom={16}
+          gestureHandling="cooperative"
+          disableDefaultUI={false}
+          fullscreenControl={false}
+          streetViewControl={false}
+          zoomControl={true}
+        >
+          <AdvancedMarker position={center} />
+        </Map>
+      </APIProvider>
+    </div>
   );
 }

@@ -10,6 +10,12 @@ function combineDateAndTime(date: string, time: string): string {
   return new Date(`${date}T${time}:00`).toISOString();
 }
 
+function parseCoordinate(value: FormDataEntryValue | null): number | null {
+  if (typeof value !== "string" || value.trim() === "") return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 async function uploadCoverIfNeeded(
   supabase: Awaited<ReturnType<typeof createClient>>,
   userId: string,
@@ -44,6 +50,8 @@ export async function createEvent(formData: FormData) {
 
   const name = String(formData.get("name") || "").trim();
   const location = String(formData.get("location") || "").trim();
+  const latitude = parseCoordinate(formData.get("latitude"));
+  const longitude = parseCoordinate(formData.get("longitude"));
   const date = String(formData.get("date") || "");
   const time = String(formData.get("time") || "");
   const duration_hours = Number(formData.get("duration_hours") || 3);
@@ -68,6 +76,8 @@ export async function createEvent(formData: FormData) {
       host_id: user.id,
       name,
       location: location || null,
+      latitude,
+      longitude,
       event_date: combineDateAndTime(date, time),
       duration_hours,
       gift_info,
@@ -95,6 +105,8 @@ export async function updateEvent(eventId: string, formData: FormData) {
 
   const name = String(formData.get("name") || "").trim();
   const location = String(formData.get("location") || "").trim();
+  const latitude = parseCoordinate(formData.get("latitude"));
+  const longitude = parseCoordinate(formData.get("longitude"));
   const date = String(formData.get("date") || "");
   const time = String(formData.get("time") || "");
   const duration_hours = Number(formData.get("duration_hours") || 3);
@@ -122,6 +134,8 @@ export async function updateEvent(eventId: string, formData: FormData) {
   const updatePayload: Record<string, unknown> = {
     name,
     location: location || null,
+    latitude,
+    longitude,
     event_date: combineDateAndTime(date, time),
     duration_hours,
     gift_info,
