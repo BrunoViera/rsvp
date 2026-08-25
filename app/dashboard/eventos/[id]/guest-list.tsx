@@ -43,18 +43,6 @@ function StatusIcon({
   );
 }
 
-function PhoneIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={className} aria-hidden="true">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M6.6 10.8c1.2 2.4 3.2 4.4 5.6 5.6l1.9-1.9c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .5 1 1V19c0 .6-.4 1-1 1C10.6 20 4 13.4 4 5c0-.6.4-1 1-1h2.3c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1L6.6 10.8Z"
-      />
-    </svg>
-  );
-}
-
 function NoteIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={className} aria-hidden="true">
@@ -70,10 +58,6 @@ function TrashIcon({ className }: { className?: string }) {
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0 .8 12a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9L17 7" />
     </svg>
   );
-}
-
-function initials(name: string) {
-  return name.trim().slice(0, 1).toUpperCase() || "?";
 }
 
 function formatRespondedAt(iso: string | null) {
@@ -138,51 +122,41 @@ export default function GuestList({
         {guests.map((guest) => (
           <div
             key={guest.id}
-            className="flex flex-col gap-3 rounded-xl border border-line/70 p-4 transition hover:border-line sm:flex-row sm:items-start sm:justify-between"
+            className="flex flex-col rounded-xl border border-line/70 p-4 transition hover:border-line"
           >
-            <div className="flex min-w-0 gap-3">
-              <div
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-display text-sm font-semibold ${STATUS_CLASS[guest.rsvp_status]}`}
-              >
-                {initials(guest.name)}
-              </div>
-
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="truncate font-medium text-ink">{guest.name}</p>
-                  {guest.source === "self" && (
-                    <span className="whitespace-nowrap rounded-full bg-marigold/15 px-2 py-0.5 text-[10px] font-medium text-marigold">
-                      Se sumó solo/a
-                    </span>
-                  )}
-                </div>
-
-                <div className="mt-1.5 flex flex-col gap-1 text-xs text-ink/55">
-                  {guest.phone && (
-                    <span className="flex items-center gap-1.5">
-                      <PhoneIcon className="h-3.5 w-3.5 shrink-0 text-ink/35" />
-                      {guest.phone}
-                    </span>
-                  )}
-                  {guest.description && (
-                    <span className="flex items-start gap-1.5">
-                      <NoteIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink/35" />
-                      <span className="break-words">{guest.description}</span>
-                    </span>
-                  )}
-                  {guest.dietary_restrictions && (
-                    <span className="flex items-start gap-1.5 text-coral/80">
-                      <span aria-hidden="true">🍽️</span>
-                      <span className="break-words">
-                        {guest.dietary_restrictions}
-                      </span>
-                    </span>
-                  )}
-                </div>
-              </div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <p className="font-medium text-ink">{guest.name}</p>
+              {guest.source === "self" && (
+                <span className="whitespace-nowrap rounded-full bg-marigold/15 px-2 py-0.5 text-[10px] font-medium text-marigold">
+                  Se sumó solo/a
+                </span>
+              )}
             </div>
 
-            <div className="flex flex-row items-center gap-2 sm:flex-col sm:items-end">
+            {guest.phone && (
+              <p className="mt-1 text-xs text-ink/55">{guest.phone}</p>
+            )}
+
+            {(guest.description || guest.dietary_restrictions) && (
+              <div className="mt-2 flex flex-col gap-1 text-xs text-ink/55">
+                {guest.description && (
+                  <span className="flex items-start gap-1.5">
+                    <NoteIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink/35" />
+                    <span className="break-words">{guest.description}</span>
+                  </span>
+                )}
+                {guest.dietary_restrictions && (
+                  <span className="flex items-start gap-1.5 text-coral/80">
+                    <span aria-hidden="true">🍽️</span>
+                    <span className="break-words">
+                      {guest.dietary_restrictions}
+                    </span>
+                  </span>
+                )}
+              </div>
+            )}
+
+            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line/60 pt-3">
               <span
                 className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${STATUS_CLASS[guest.rsvp_status]}`}
               >
@@ -197,7 +171,7 @@ export default function GuestList({
                 </span>
               )}
 
-              <div className="mt-1 flex items-center gap-2 sm:mt-0">
+              <div className="ml-auto flex items-center gap-2">
                 <CopyLinkButton
                   path={`/rsvp/${guest.rsvp_token}`}
                   label="Copiar link"
