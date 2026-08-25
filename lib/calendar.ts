@@ -57,8 +57,12 @@ export function buildIcsDataUri(event: EventRow): string {
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
 }
 
-export function buildDirectionsUrl(location: string): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-    location
-  )}`;
+export function buildDirectionsUrl(
+  location: string,
+  coords?: { lat: number; lng: number } | null
+): string {
+  const destination = coords
+    ? `${coords.lat},${coords.lng}`
+    : encodeURIComponent(location);
+  return `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
 }
