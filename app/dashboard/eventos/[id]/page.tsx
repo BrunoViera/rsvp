@@ -6,6 +6,8 @@ import GuestList from "./guest-list";
 import RsvpStats from "./rsvp-stats";
 import CopyLinkButton from "./copy-link-button";
 import Collaborators from "./collaborators";
+import MapEmbed from "@/app/_components/map-embed";
+import { resolveEventPoint } from "@/lib/geocode";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Sin fecha";
@@ -45,6 +47,8 @@ export default async function EventoDetallePage({
 
   if (!event) notFound();
 
+  const point = await resolveEventPoint(event);
+
   return (
     <div>
       <Link
@@ -72,38 +76,52 @@ export default async function EventoDetallePage({
         />
       )}
 
-      <div className="card mt-6 flex flex-col gap-3 text-sm">
-        <div>
-          <span className="font-medium text-ink/60">Fecha y hora: </span>
-          {formatFecha(event.event_date)}
+      <div className="card mt-6 flex flex-col divide-y divide-line text-sm">
+        <dl className="grid gap-4 pb-5 sm:grid-cols-2">
+          <div>
+            <dt className="text-xs font-medium uppercase tracking-wide text-ink/40">
+              Fecha y hora
+            </dt>
+            <dd className="mt-1 text-ink">{formatFecha(event.event_date)}</dd>
+          </div>
+          <div>
+            <dt className="text-xs font-medium uppercase tracking-wide text-ink/40">
+              Duración
+            </dt>
+            <dd className="mt-1 text-ink">{event.duration_hours} hs</dd>
+          </div>
+          {event.gift_info && (
+            <div>
+              <dt className="text-xs font-medium uppercase tracking-wide text-ink/40">
+                Regalo
+              </dt>
+              <dd className="mt-1 text-ink">{event.gift_info}</dd>
+            </div>
+          )}
+        </dl>
+
+        <div className="flex flex-col gap-3 py-5">
+          <p className="text-xs font-medium uppercase tracking-wide text-ink/40">
+            Links para compartir
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <CopyLinkButton path={`/e/${event.slug}`} label="Copiar link de la lista" />
+            <CopyLinkButton
+              path={`/e/${event.slug}/confirmados`}
+              label="Copiar link de confirmados"
+            />
+          </div>
         </div>
-        <div>
-          <span className="font-medium text-ink/60">Duración: </span>
-          {event.duration_hours} hs
-        </div>
+
         {event.location && (
-          <div>
-            <span className="font-medium text-ink/60">Lugar: </span>
-            {event.location}
+          <div className="flex flex-col gap-3 pt-5">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink/40">
+              Ubicación
+            </p>
+            <p className="text-ink">{event.location}</p>
+            {point && <MapEmbed point={point} />}
           </div>
         )}
-        {event.gift_info && (
-          <div>
-            <span className="font-medium text-ink/60">Regalo: </span>
-            {event.gift_info}
-          </div>
-        )}
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-ink/60">Lista compartida: </span>
-          <CopyLinkButton path={`/e/${event.slug}`} label="Copiar link de la lista" />
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-ink/60">Confirmados: </span>
-          <CopyLinkButton
-            path={`/e/${event.slug}/confirmados`}
-            label="Copiar link de confirmados"
-          />
-        </div>
       </div>
 
       <RsvpStats guests={guests ?? []} />

@@ -39,3 +39,20 @@ export async function geocodeAddress(query: string): Promise<GeoPoint | null> {
     return null;
   }
 }
+
+/**
+ * Resuelve el punto a mostrar en el mapa de un evento.
+ * Los eventos nuevos ya traen coordenadas exactas (elegidas con Google Places
+ * al crear/editar). Para eventos viejos, sin lat/lng guardados, cae a Nominatim
+ * para no perderles el mapa.
+ */
+export async function resolveEventPoint(event: {
+  latitude: number | null;
+  longitude: number | null;
+  location: string | null;
+}): Promise<GeoPoint | null> {
+  if (event.latitude != null && event.longitude != null) {
+    return { lat: event.latitude, lon: event.longitude };
+  }
+  return event.location ? geocodeAddress(event.location) : null;
+}

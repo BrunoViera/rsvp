@@ -1,5 +1,5 @@
 import type { EventRow, GuestRow } from "@/lib/types";
-import { geocodeAddress } from "@/lib/geocode";
+import { resolveEventPoint } from "@/lib/geocode";
 import { buildGoogleCalendarUrl, buildIcsDataUri, buildDirectionsUrl } from "@/lib/calendar";
 import { isRsvpOpen } from "@/lib/event-timing";
 import MapEmbed from "./map-embed";
@@ -27,15 +27,7 @@ export default async function RsvpCard({
   guest: GuestRow;
   action: (formData: FormData) => void;
 }) {
-  // Eventos nuevos ya traen coordenadas exactas (elegidas con Google Places
-  // al crear/editar). Para eventos viejos, sin lat/lng guardados, hacemos un
-  // último intento con Nominatim para no perder el mapa/dirección.
-  const point =
-    event.latitude != null && event.longitude != null
-      ? { lat: event.latitude, lon: event.longitude }
-      : event.location
-        ? await geocodeAddress(event.location)
-        : null;
+  const point = await resolveEventPoint(event);
   const googleCalendarUrl = buildGoogleCalendarUrl(event);
   const icsDataUri = buildIcsDataUri(event);
   const rsvpOpen = isRsvpOpen(event);
