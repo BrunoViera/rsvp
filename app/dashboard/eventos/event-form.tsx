@@ -1,4 +1,5 @@
 import type { EventRow } from "@/lib/types";
+import LocationField from "./location-field";
 
 function toDateInputValue(iso: string | null): string {
   if (!iso) return "";
@@ -11,6 +12,14 @@ function toTimeInputValue(iso: string | null): string {
   return `${String(d.getHours()).padStart(2, "0")}:${String(
     d.getMinutes()
   ).padStart(2, "0")}`;
+}
+
+function todayDateInputValue(): string {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 export default function EventForm({
@@ -52,18 +61,7 @@ export default function EventForm({
         />
       </div>
 
-      <div>
-        <label className="mb-1 block text-sm font-medium text-ink/80">
-          Lugar
-        </label>
-        <input
-          type="text"
-          name="location"
-          defaultValue={event?.location ?? ""}
-          placeholder="Salón Los Aromos, Av. Siempre Viva 742"
-          className="field"
-        />
-      </div>
+      <LocationField defaultValue={event?.location ?? ""} />
 
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -74,9 +72,15 @@ export default function EventForm({
             type="date"
             name="date"
             required
+            min={event ? undefined : todayDateInputValue()}
             defaultValue={toDateInputValue(event?.event_date ?? null)}
             className="field"
           />
+          {!event && (
+            <p className="mt-1 text-xs text-ink/40">
+              No puede ser una fecha pasada.
+            </p>
+          )}
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-ink/80">

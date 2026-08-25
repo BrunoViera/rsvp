@@ -83,7 +83,7 @@ Podés inspeccionar y editar los datos a mano en **Supabase Studio** local: `htt
 ## Setup con Supabase cloud (para producción / staging)
 
 1. Crear un proyecto en [supabase.com](https://supabase.com).
-2. Ir a **SQL Editor** y ejecutar el contenido de [`supabase/schema.sql`](./supabase/schema.sql) y luego, en orden, `002_event_details.sql`, `003_dietary_restrictions.sql` y `004_collaborators.sql`.
+2. Ir a **SQL Editor** y ejecutar el contenido de [`supabase/schema.sql`](./supabase/schema.sql) y luego, en orden, `002_event_details.sql`, `003_dietary_restrictions.sql`, `004_collaborators.sql` y `005_grants.sql`.
 3. En **Authentication → URL Configuration**, agregar la URL del sitio (localhost en dev, el dominio de Vercel en producción) para que los magic links redirijan bien.
 4. Copiar la **Project URL** y la **Publishable key** (`sb_publishable_...`) desde **Project Settings → API Keys** hacia las variables de entorno. (Si tu proyecto todavía no tiene una publishable key, hacé click en "Create new API Keys" en esa misma pantalla.)
 

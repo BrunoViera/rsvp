@@ -54,6 +54,11 @@ export async function createEvent(formData: FormData) {
     throw new Error("Nombre, fecha y hora de inicio son obligatorios.");
   }
 
+  const event_date = combineDateAndTime(date, time);
+  if (new Date(event_date) < new Date()) {
+    throw new Error("La fecha del evento no puede estar en el pasado.");
+  }
+
   const slug = generateSlug(name);
   const cover_photo_url = await uploadCoverIfNeeded(
     supabase,
@@ -68,7 +73,7 @@ export async function createEvent(formData: FormData) {
       host_id: user.id,
       name,
       location: location || null,
-      event_date: combineDateAndTime(date, time),
+      event_date,
       duration_hours,
       gift_info,
       cover_photo_url,
