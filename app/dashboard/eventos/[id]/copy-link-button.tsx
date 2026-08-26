@@ -22,7 +22,7 @@ export default function CopyLinkButton({
     <button
       type="button"
       onClick={handleCopy}
-      className="rounded-full border border-ink/15 px-3 py-1 text-xs font-medium text-ink/70 transition hover:bg-ink/5"
+      className="whitespace-nowrap rounded-full border border-ink/15 px-3 py-1 text-xs font-medium text-ink/70 transition hover:bg-ink/5"
     >
       {copied ? "¡Copiado!" : label}
     </button>

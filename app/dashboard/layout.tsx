@@ -14,31 +14,42 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen">
-      <header className="flex items-center justify-between border-b border-line px-6 py-4">
+      <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-line px-4 py-3 sm:px-6 sm:py-4">
         <Link
           href="/dashboard"
-          className="font-display text-lg font-semibold text-ink hover:text-ink/80"
+          className="whitespace-nowrap font-display text-lg font-semibold text-ink hover:text-ink/80"
         >
           Cumple RSVP
         </Link>
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="text-sm text-ink/70 hover:text-ink">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <Link
+            href="/dashboard"
+            className="whitespace-nowrap text-sm text-ink/70 hover:text-ink"
+          >
             Mis eventos
           </Link>
-          <Link href="/dashboard/invitaciones" className="text-sm text-ink/70 hover:text-ink">
+          <Link
+            href="/dashboard/invitaciones"
+            className="whitespace-nowrap text-sm text-ink/70 hover:text-ink"
+          >
             Invitaciones
           </Link>
+          {/* El email ocupa demasiado en pantallas chicas y no es accionable. */}
           {user?.email && (
-            <span className="text-sm text-ink/60">{user.email}</span>
+            <span className="hidden max-w-[16rem] truncate text-sm text-ink/60 lg:inline">
+              {user.email}
+            </span>
           )}
           <form action={signOut}>
-            <button type="submit" className="btn-secondary py-2">
+            <button type="submit" className="btn-secondary px-4">
               Salir
             </button>
           </form>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl px-6 py-10">{children}</main>
+      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+        {children}
+      </main>
     </div>
   );
 }

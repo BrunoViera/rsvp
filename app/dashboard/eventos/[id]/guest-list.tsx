@@ -129,15 +129,17 @@ export default function GuestList({
             {awaiting.map((guest) => (
               <div
                 key={guest.id}
-                className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-line/70 bg-white px-3 py-2"
+                className="flex flex-col gap-2 rounded-xl border border-line/70 bg-white px-3 py-2 sm:flex-row sm:items-center sm:gap-3"
               >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-ink">{guest.name}</p>
+                <div className="min-w-0 sm:flex-1">
+                  <p className="break-words font-medium text-ink">
+                    {guest.name}
+                  </p>
                   {guest.phone && (
                     <p className="text-xs text-ink/55">{guest.phone}</p>
                   )}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <form action={approveGuestWithId.bind(null, guest.id)}>
                     <button
                       type="submit"
@@ -174,7 +176,7 @@ export default function GuestList({
             className="flex flex-col rounded-xl border border-line/70 p-4 transition hover:border-line"
           >
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <p className="font-medium text-ink">{guest.name}</p>
+              <p className="break-words font-medium text-ink">{guest.name}</p>
               {guest.source === "self" && (
                 <span className="whitespace-nowrap rounded-full bg-marigold/15 px-2 py-0.5 text-[10px] font-medium text-marigold">
                   Se agregó desde el link
@@ -205,22 +207,26 @@ export default function GuestList({
               </div>
             )}
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line/60 pt-3">
-              <span
-                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${STATUS_CLASS[guest.rsvp_status]}`}
-              >
-                <StatusIcon status={guest.rsvp_status} className="h-3 w-3" />
-                {STATUS_LABEL[guest.rsvp_status]}
-              </span>
-
-              {guest.responded_at && (
-                <span className="whitespace-nowrap text-[11px] text-ink/40">
-                  {guest.rsvp_status === "confirmed" ? "Confirmó" : "Respondió"}{" "}
-                  el {formatRespondedAt(guest.responded_at)}
+            <div className="mt-3 flex flex-col gap-2 border-t border-line/60 pt-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span
+                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${STATUS_CLASS[guest.rsvp_status]}`}
+                >
+                  <StatusIcon status={guest.rsvp_status} className="h-3 w-3" />
+                  {STATUS_LABEL[guest.rsvp_status]}
                 </span>
-              )}
 
-              <div className="ml-auto flex items-center gap-2">
+                {guest.responded_at && (
+                  <span className="whitespace-nowrap text-[11px] text-ink/40">
+                    {guest.rsvp_status === "confirmed"
+                      ? "Confirmó"
+                      : "Respondió"}{" "}
+                    el {formatRespondedAt(guest.responded_at)}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
                 {guest.phone && (
                   <WhatsappButton
                     guestName={guest.name}
@@ -237,7 +243,7 @@ export default function GuestList({
                   <button
                     type="submit"
                     aria-label={`Eliminar a ${guest.name}`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-coral/30 px-3 py-1 text-xs font-medium text-coral/80 transition hover:bg-coral/10 hover:text-coral"
+                    className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-coral/30 px-3 py-1 text-xs font-medium text-coral/80 transition hover:bg-coral/10 hover:text-coral"
                   >
                     <TrashIcon className="h-3.5 w-3.5" />
                     Eliminar

@@ -38,10 +38,11 @@ export default function WhatsappButton({
     <button
       type="button"
       onClick={handleClick}
-      className="inline-flex items-center gap-1.5 rounded-full border border-sage/40 px-3 py-1 text-xs font-medium text-sage transition hover:bg-sage/10"
+      aria-label={`Enviar invitación a ${guestName} por WhatsApp`}
+      className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-sage/40 px-3 py-1 text-xs font-medium text-sage transition hover:bg-sage/10"
     >
       <WhatsappIcon className="h-3.5 w-3.5" />
-      Enviar por WhatsApp
+      WhatsApp
     </button>
   );
 }
