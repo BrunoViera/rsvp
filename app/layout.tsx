@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { siteUrl } from "@/lib/site";
+import SiteAnalytics from "./_components/analytics";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${fraunces.variable} ${inter.variable} font-body bg-paper text-ink antialiased`}>
         {children}
+        <SiteAnalytics />
       </body>
     </html>
   );
