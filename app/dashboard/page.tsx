@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow } from "@/lib/types";
+import { isEventFinished } from "@/lib/event-timing";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Sin fecha";
@@ -49,10 +50,17 @@ export default async function DashboardPage() {
   for (const e of [...(ownEvents ?? []), ...collabEvents]) {
     eventsById.set(e.id, e);
   }
+  // Primero los próximos, del más cercano al más lejano; los ya terminados van
+  // al final, del más reciente al más viejo. Ordena por fecha del evento, no
+  // por la de creación.
+  const now = new Date();
   const events = Array.from(eventsById.values()).sort((a, b) => {
     const da = a.event_date ? new Date(a.event_date).getTime() : Infinity;
     const db = b.event_date ? new Date(b.event_date).getTime() : Infinity;
-    return da - db;
+    const aPast = isEventFinished(a, now);
+    const bPast = isEventFinished(b, now);
+    if (aPast !== bPast) return aPast ? 1 : -1;
+    return aPast ? db - da : da - db;
   });
 
   return (
