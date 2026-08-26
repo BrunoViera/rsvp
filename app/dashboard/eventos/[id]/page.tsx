@@ -126,7 +126,11 @@ export default async function EventoDetallePage({
 
       <RsvpStats guests={guests ?? []} />
 
-      <GuestList eventId={event.id} guests={guests ?? []} />
+      <GuestList
+        eventId={event.id}
+        eventName={event.name}
+        guests={guests ?? []}
+      />
 
       <Collaborators eventId={event.id} collaborators={collaborators ?? []} />
     </div>

@@ -1,5 +1,7 @@
 import type { GuestRow } from "@/lib/types";
 import CopyLinkButton from "./copy-link-button";
+import WhatsappButton from "./whatsapp-button";
+import AddGuestForm from "./add-guest-form";
 import { addGuest, deleteGuest } from "./guests-actions";
 
 const STATUS_LABEL: Record<GuestRow["rsvp_status"], string> = {
@@ -70,9 +72,11 @@ function formatRespondedAt(iso: string | null) {
 
 export default function GuestList({
   eventId,
+  eventName,
   guests,
 }: {
   eventId: string;
+  eventName: string;
   guests: GuestRow[];
 }) {
   const addGuestWithId = addGuest.bind(null, eventId);
@@ -91,27 +95,7 @@ export default function GuestList({
         <span className="text-sm text-sage">{confirmedCount} confirmados</span>
       </div>
 
-      <form
-        action={addGuestWithId}
-        className="mt-4 flex flex-col gap-3 sm:flex-row"
-      >
-        <input
-          type="text"
-          name="name"
-          required
-          placeholder="Nombre del invitado"
-          className="field sm:flex-1"
-        />
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Teléfono (opcional)"
-          className="field sm:flex-1"
-        />
-        <button type="submit" className="btn-secondary whitespace-nowrap">
-          + Agregar
-        </button>
-      </form>
+      <AddGuestForm action={addGuestWithId} />
 
       <div className="mt-6 flex flex-col gap-2">
         {guests.length === 0 && (
@@ -172,6 +156,14 @@ export default function GuestList({
               )}
 
               <div className="ml-auto flex items-center gap-2">
+                {guest.phone && (
+                  <WhatsappButton
+                    guestName={guest.name}
+                    eventName={eventName}
+                    rsvpPath={`/rsvp/${guest.rsvp_token}`}
+                    phone={guest.phone}
+                  />
+                )}
                 <CopyLinkButton
                   path={`/rsvp/${guest.rsvp_token}`}
                   label="Copiar link"

@@ -11,15 +11,15 @@
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 font-body text-sm font-medium text-paper transition hover:bg-ink/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marigold disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-full bg-ink px-5 py-2 font-body text-sm font-medium text-paper transition hover:bg-ink/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marigold disabled:opacity-50;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-full border border-ink/15 bg-transparent px-6 py-3 font-body text-sm font-medium text-ink transition hover:bg-ink/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marigold;
+  @apply inline-flex items-center justify-center rounded-full border border-ink/15 bg-transparent px-5 py-2 font-body text-sm font-medium text-ink transition hover:bg-ink/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marigold;
 }
 
 .field {
-  @apply w-full rounded-xl border border-line bg-white px-4 py-3 font-body text-ink placeholder:text-ink/40 focus:border-marigold focus:outline-none focus:ring-2 focus:ring-marigold/30;
+  @apply w-full rounded-xl border border-line bg-white px-3.5 py-2 font-body text-sm text-ink placeholder:text-ink/40 focus:border-marigold focus:outline-none focus:ring-2 focus:ring-marigold/30;
 }
 
 .card {
