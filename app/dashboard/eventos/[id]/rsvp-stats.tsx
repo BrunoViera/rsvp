@@ -21,7 +21,7 @@ export default function RsvpStats({ guests }: { guests: GuestRow[] }) {
           {
             label: "Esperan aprobación",
             value: awaiting,
-            className: "text-marigold",
+            className: "text-ink/70",
           },
         ]
       : []),
