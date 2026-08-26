@@ -34,6 +34,12 @@ export default async function DashboardLayout({
           >
             Invitaciones
           </Link>
+          <Link
+            href="/dashboard/metricas"
+            className="whitespace-nowrap text-sm text-ink/70 hover:text-ink"
+          >
+            Métricas
+          </Link>
           {/* El email ocupa demasiado en pantallas chicas y no es accionable. */}
           {user?.email && (
             <span className="hidden max-w-[16rem] truncate text-sm text-ink/60 lg:inline">
