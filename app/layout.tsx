@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
+import { siteUrl } from "@/lib/site";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -13,9 +14,29 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const TITULO = "Cumple RSVP";
+const DESCRIPCION =
+  "Invitá con un link y mirá quién confirma. Gratis, y tus invitados no tienen que crear cuenta.";
+
 export const metadata: Metadata = {
-  title: "Cumple RSVP",
-  description: "Organiza tu cumpleaños y controla las confirmaciones de tus invitados.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: TITULO,
+    template: `%s · ${TITULO}`,
+  },
+  description: DESCRIPCION,
+  openGraph: {
+    type: "website",
+    siteName: TITULO,
+    locale: "es_UY",
+    title: TITULO,
+    description: DESCRIPCION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITULO,
+    description: DESCRIPCION,
+  },
 };
 
 export default function RootLayout({
