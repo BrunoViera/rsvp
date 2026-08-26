@@ -86,7 +86,19 @@ export default function GuestList({
   // Los que se agregaron solos esperan el visto bueno del organizador y van
   // en su propia sección, arriba de la lista.
   const awaiting = guests.filter((g) => !g.approved);
-  const approved = guests.filter((g) => g.approved);
+
+  // Primero los que todavía no respondieron (los que requieren acción), después
+  // los confirmados y al final los que avisaron que no van.
+  const STATUS_ORDER: Record<GuestRow["rsvp_status"], number> = {
+    pending: 0,
+    confirmed: 1,
+    declined: 2,
+  };
+  const approved = guests
+    .filter((g) => g.approved)
+    .sort(
+      (a, b) => STATUS_ORDER[a.rsvp_status] - STATUS_ORDER[b.rsvp_status]
+    );
 
   const confirmedCount = approved.filter(
     (g) => g.rsvp_status === "confirmed"
@@ -165,7 +177,7 @@ export default function GuestList({
               <p className="font-medium text-ink">{guest.name}</p>
               {guest.source === "self" && (
                 <span className="whitespace-nowrap rounded-full bg-marigold/15 px-2 py-0.5 text-[10px] font-medium text-marigold">
-                  Se sumó solo/a
+                  Se agregó desde el link
                 </span>
               )}
             </div>
@@ -225,9 +237,10 @@ export default function GuestList({
                   <button
                     type="submit"
                     aria-label={`Eliminar a ${guest.name}`}
-                    className="rounded-full p-1.5 text-coral/50 transition hover:bg-coral/10 hover:text-coral"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-coral/30 px-3 py-1 text-xs font-medium text-coral/80 transition hover:bg-coral/10 hover:text-coral"
                   >
-                    <TrashIcon className="h-4 w-4" />
+                    <TrashIcon className="h-3.5 w-3.5" />
+                    Eliminar
                   </button>
                 </form>
               </div>
