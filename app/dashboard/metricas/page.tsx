@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
 import { getMetrics } from "@/lib/metrics";
+import { esAdmin } from "@/lib/admin";
 
 function formatHoras(horas: number | null): string {
   if (horas === null) return "—";
@@ -25,6 +27,10 @@ export default async function MetricasPage() {
   } = await supabase.auth.getUser();
 
   if (!user) return null;
+
+  // Vista interna: no es para todas las cuentas. notFound() en vez de un
+  // mensaje de "no autorizado" para no revelar que la ruta existe.
+  if (!esAdmin(user.email)) notFound();
 
   const m = await getMetrics(user.id);
 
