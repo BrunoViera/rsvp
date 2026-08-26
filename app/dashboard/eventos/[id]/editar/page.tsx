@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { EventRow } from "@/lib/types";
 import EventForm from "../../event-form";
 import { updateEvent } from "../../actions";
+import { isEventFinished } from "@/lib/event-timing";
 
 export default async function EditarEventoPage({
   params,
@@ -20,6 +21,27 @@ export default async function EditarEventoPage({
     .single<EventRow>();
 
   if (!event) notFound();
+
+  // La página es accesible por URL aunque el botón de editar esté oculto.
+  if (isEventFinished(event)) {
+    return (
+      <div>
+        <Link
+          href={`/dashboard/eventos/${event.id}`}
+          className="inline-flex items-center gap-1 text-sm text-ink/60 hover:text-ink"
+        >
+          ← Volver al evento
+        </Link>
+
+        <h1 className="mt-4 font-display text-3xl font-semibold text-ink">
+          {event.name}
+        </h1>
+        <div className="card mt-6 text-sm text-ink/60">
+          Este evento ya terminó y no se puede editar.
+        </div>
+      </div>
+    );
+  }
 
   const updateWithId = updateEvent.bind(null, event.id);
 

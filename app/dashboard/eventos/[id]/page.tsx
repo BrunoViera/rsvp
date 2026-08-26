@@ -8,6 +8,7 @@ import CopyLinkButton from "./copy-link-button";
 import Collaborators from "./collaborators";
 import MapEmbed from "@/app/_components/map-embed";
 import { resolveEventPoint } from "@/lib/geocode";
+import { isEventFinished } from "@/lib/event-timing";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Sin fecha";
@@ -48,6 +49,7 @@ export default async function EventoDetallePage({
   if (!event) notFound();
 
   const point = await resolveEventPoint(event);
+  const finished = isEventFinished(event);
 
   return (
     <div>
@@ -62,10 +64,22 @@ export default async function EventoDetallePage({
         <h1 className="font-display text-3xl font-semibold text-ink">
           {event.name}
         </h1>
-        <Link href={`/dashboard/eventos/${event.id}/editar`} className="btn-secondary">
-          Editar evento
-        </Link>
+        {!finished && (
+          <Link
+            href={`/dashboard/eventos/${event.id}/editar`}
+            className="btn-secondary"
+          >
+            Editar evento
+          </Link>
+        )}
       </div>
+
+      {finished && (
+        <div className="mt-4 rounded-card border border-line bg-ink/5 px-4 py-3 text-sm text-ink/60">
+          Este evento ya terminó. No se puede editar ni modificar su lista de
+          invitados.
+        </div>
+      )}
 
       {event.cover_photo_url && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -130,9 +144,15 @@ export default async function EventoDetallePage({
         eventId={event.id}
         eventName={event.name}
         guests={guests ?? []}
+        readOnly={finished}
       />
 
-      <Collaborators eventId={event.id} collaborators={collaborators ?? []} />
+      {!finished && (
+        <Collaborators
+          eventId={event.id}
+          collaborators={collaborators ?? []}
+        />
+      )}
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { generateSlug } from "@/lib/slug";
+import { isEventFinished } from "@/lib/event-timing";
+import type { EventRow } from "@/lib/types";
 
 function combineDateAndTime(date: string, time: string): string {
   // date: "YYYY-MM-DD", time: "HH:mm" -> ISO string en la zona local del server
@@ -124,9 +126,15 @@ export async function updateEvent(eventId: string, formData: FormData) {
 
   const { data: existing } = await supabase
     .from("events")
-    .select("slug")
+    .select("*")
     .eq("id", eventId)
-    .single();
+    .single<EventRow>();
+
+  // Un evento terminado es de solo lectura; el form está oculto pero la acción
+  // se puede invocar igual.
+  if (existing && isEventFinished(existing)) {
+    throw new Error("Este evento ya terminó y no se puede editar.");
+  }
 
   const slug = existing?.slug ?? generateSlug(name);
   const cover_photo_url = await uploadCoverIfNeeded(

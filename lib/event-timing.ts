@@ -27,3 +27,11 @@ export function isConfirmedListVisible(
 ): boolean {
   return now < getEventWindow(event).end;
 }
+
+/** Un evento terminado es de solo lectura: no se edita ni se tocan sus invitados. */
+export function isEventFinished(
+  event: EventRow,
+  now: Date = new Date()
+): boolean {
+  return now >= getEventWindow(event).end;
+}
