@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   APIProvider,
   Map,
@@ -37,6 +37,14 @@ function AddressAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null);
   const placesLib = useMapsLibrary("places");
 
+  // El callback cambia en cada render del padre. Si el efecto dependiera de él,
+  // el autocomplete se destruiría y recrearía continuamente y la selección se
+  // podía perder. Se guarda en un ref y el efecto solo depende de Places.
+  const onSelectRef = useRef(onPlaceSelected);
+  useEffect(() => {
+    onSelectRef.current = onPlaceSelected;
+  }, [onPlaceSelected]);
+
   useEffect(() => {
     if (!placesLib || !inputRef.current) return;
 
@@ -50,12 +58,12 @@ function AddressAutocomplete({
       const lng = place.geometry?.location?.lng();
       const address = place.formatted_address || place.name || "";
       if (lat != null && lng != null) {
-        onPlaceSelected({ address, lat, lng });
+        onSelectRef.current({ address, lat, lng });
       }
     });
 
     return () => listener.remove();
-  }, [placesLib, onPlaceSelected]);
+  }, [placesLib]);
 
   return (
     <input
@@ -70,6 +78,29 @@ function AddressAutocomplete({
   );
 }
 
+/** Centra el mapa en el punto elegido.
+ *  Va en un componente aparte y no en <Map defaultCenter>: defaultCenter solo
+ *  aplica al montar, así que al elegir la primera dirección el mapa se quedaba
+ *  donde estaba y había que repetir la búsqueda para que se moviera.
+ *  Depende de `map` para reintentar si la instancia todavía no estaba lista. */
+function MapCamera({
+  point,
+}: {
+  point: { lat: number; lng: number } | null;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map || !point) return;
+    map.panTo(point);
+    // Al pasar de "sin ubicación" a una elegida, se acerca para que se vea la
+    // dirección concreta y no la ciudad entera.
+    if ((map.getZoom() ?? 0) < 15) map.setZoom(16);
+  }, [map, point?.lat, point?.lng]);
+
+  return null;
+}
+
 function DraggableMarker({
   position,
   onDragEnd,
@@ -77,13 +108,6 @@ function DraggableMarker({
   position: { lat: number; lng: number };
   onDragEnd: (pos: { lat: number; lng: number }) => void;
 }) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (map) map.panTo(position);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [position.lat, position.lng]);
-
   return (
     <AdvancedMarker
       position={position}
@@ -112,6 +136,14 @@ export default function LocationPicker({
       : null
   );
 
+  const handlePlaceSelected = useCallback(
+    ({ address, lat, lng }: { address: string; lat: number; lng: number }) => {
+      setAddress(address);
+      setPoint({ lat, lng });
+    },
+    []
+  );
+
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) {
@@ -128,10 +160,7 @@ export default function LocationPicker({
         <AddressAutocomplete
           value={address}
           onChange={setAddress}
-          onPlaceSelected={({ address, lat, lng }) => {
-            setAddress(address);
-            setPoint({ lat, lng });
-          }}
+          onPlaceSelected={handlePlaceSelected}
         />
 
         <div className="h-56 w-full overflow-hidden rounded-card border border-line">
@@ -144,6 +173,7 @@ export default function LocationPicker({
             fullscreenControl={false}
             streetViewControl={false}
           >
+            <MapCamera point={point} />
             {point && (
               <DraggableMarker position={point} onDragEnd={setPoint} />
             )}
