@@ -155,7 +155,7 @@ export default function Home() {
               alt="Invitación con la fecha, el mapa del lugar y los botones para confirmar"
               caption="Esto es lo que recibe cada familia."
               width={1040}
-              height={1900}
+              height={2040}
             />
           </div>
         </div>
@@ -197,23 +197,6 @@ export default function Home() {
             </li>
           ))}
         </ol>
-
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:mx-auto lg:max-w-3xl">
-          <Capture
-            src="/capturas/lista.png"
-            alt="Lista de invitados donde cada persona busca su nombre"
-            caption="Con un solo link, cada uno busca su nombre."
-            width={1040}
-            height={900}
-          />
-          <Capture
-            src="/capturas/confirmados.png"
-            alt="Lista de confirmados con los teléfonos y las restricciones alimentarias"
-            caption="La lista de confirmados, con las alergias a la vista."
-            width={1040}
-            height={960}
-          />
-        </div>
       </section>
 
       {/* Beneficios */}
