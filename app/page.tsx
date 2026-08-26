@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import CtaLink from "./_components/cta-link";
 
 const PASOS = [
   {
@@ -116,9 +117,9 @@ export default function Home() {
         <span className="font-display text-lg font-semibold text-ink">
           Cumple RSVP
         </span>
-        <Link href="/login" className="btn-secondary">
+        <CtaLink href="/login" ubicacion="header" className="btn-secondary">
           Ingresar
-        </Link>
+        </CtaLink>
       </header>
 
       {/* Hero */}
@@ -140,9 +141,13 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href="/login" className="btn-primary">
+              <CtaLink
+                href="/login"
+                ubicacion="hero"
+                className="btn-primary"
+              >
                 Crear mi primer evento
-              </Link>
+              </CtaLink>
               <span className="text-sm text-ink/50">
                 Se entra con tu correo, sin contraseña.
               </span>
@@ -229,9 +234,13 @@ export default function Home() {
           necesites. No pedimos tarjeta ni hay una versión “pro” esperándote a
           mitad de camino.
         </p>
-        <Link href="/login" className="btn-primary mt-8 inline-flex">
+        <CtaLink
+          href="/login"
+          ubicacion="precio"
+          className="btn-primary mt-8 inline-flex"
+        >
           Crear mi primer evento
-        </Link>
+        </CtaLink>
       </section>
 
       {/* Preguntas */}
@@ -269,9 +278,13 @@ export default function Home() {
             Invitaciones y confirmaciones para cumpleaños, sin planillas ni
             grupos interminables.
           </p>
-          <Link href="/login" className="btn-secondary mt-2">
+          <CtaLink
+            href="/login"
+            ubicacion="footer"
+            className="btn-secondary mt-2"
+          >
             Empezar
-          </Link>
+          </CtaLink>
         </div>
       </footer>
     </main>

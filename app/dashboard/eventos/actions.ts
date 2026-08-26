@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { generateSlug } from "@/lib/slug";
 import { isEventFinished } from "@/lib/event-timing";
+import { track } from "@vercel/analytics/server";
 import type { EventRow } from "@/lib/types";
 
 function combineDateAndTime(date: string, time: string): string {
@@ -97,6 +98,10 @@ export async function createEvent(formData: FormData) {
   if (error) {
     throw new Error(`No se pudo crear el evento: ${error.message}`);
   }
+
+  // Cierre del embudo: visita -> clic en el CTA -> login -> evento creado.
+  // Sin datos del evento ni del usuario, solo el hecho de que se creó.
+  await track("evento_creado", { tieneUbicacion: Boolean(location) });
 
   revalidatePath("/dashboard");
   redirect(`/dashboard/eventos/${event.id}`);
