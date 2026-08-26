@@ -15,9 +15,11 @@ import CountrySelect from "./country-select";
 export default function PhoneInput({
   name,
   defaultValue,
+  required,
 }: {
   name: string;
   defaultValue?: string | null;
+  required?: boolean;
 }) {
   const countries = useMemo(() => listPhoneCountries(), []);
 
@@ -85,6 +87,7 @@ export default function PhoneInput({
         type="tel"
         value={local}
         onChange={(e) => setLocal(e.target.value)}
+        required={required}
         placeholder="99 123 456"
         aria-label="Número de teléfono"
         className="min-w-0 flex-1 rounded-r-xl border-0 bg-transparent py-2 pl-0 pr-3.5 font-body text-sm text-ink placeholder:text-ink/40 focus:outline-none"

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import PhoneInput from "@/app/_components/phone-input";
 
 type GuestOption = { id: string; name: string };
 
@@ -62,9 +63,25 @@ export default function GuestPicker({
       ) : (
         <form action={addSelfAction} className="mt-4 flex flex-col gap-3">
           <label className="text-sm font-medium text-ink/80">
-            Escribí tu nombre para agregarte a la lista
+            Agregate a la lista
           </label>
-          <input type="text" name="name" required className="field" />
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Tu nombre"
+            className="field"
+          />
+          <div>
+            <PhoneInput name="phone" required />
+            <p className="mt-1 text-xs text-ink/45">
+              Tu teléfono es necesario para que quien organiza pueda
+              contactarte.
+            </p>
+          </div>
+          <p className="text-xs text-ink/55">
+            Quien organiza tiene que aprobar tu solicitud.
+          </p>
           <button type="submit" className="btn-secondary self-start">
             Agregarme
           </button>

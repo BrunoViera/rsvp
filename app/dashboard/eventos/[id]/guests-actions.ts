@@ -18,6 +18,7 @@ export async function addGuest(eventId: string, formData: FormData) {
     name,
     phone,
     source: "host",
+    approved: true,
   });
 
   if (error) {
@@ -34,6 +35,21 @@ export async function deleteGuest(eventId: string, guestId: string) {
 
   if (error) {
     throw new Error(`No se pudo eliminar el invitado: ${error.message}`);
+  }
+
+  revalidatePath(`/dashboard/eventos/${eventId}`);
+}
+
+export async function approveGuest(eventId: string, guestId: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ approved: true })
+    .eq("id", guestId);
+
+  if (error) {
+    throw new Error(`No se pudo aprobar el invitado: ${error.message}`);
   }
 
   revalidatePath(`/dashboard/eventos/${eventId}`);

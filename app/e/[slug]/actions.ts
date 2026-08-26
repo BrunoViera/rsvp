@@ -12,9 +12,16 @@ export async function addSelfGuest(
   formData: FormData
 ) {
   const name = String(formData.get("name") || "").trim();
+  const phone = String(formData.get("phone") || "").trim();
 
   if (!name) {
     throw new Error("Escribí tu nombre para agregarte a la lista.");
+  }
+
+  // El teléfono es obligatorio en este flujo: quien organiza necesita poder
+  // contactar a alguien que se suma por su cuenta antes de aprobarlo.
+  if (!phone) {
+    throw new Error("Dejá tu teléfono para que puedan contactarte.");
   }
 
   const supabase = await createClient();
@@ -31,7 +38,8 @@ export async function addSelfGuest(
 
   const { data: newGuest, error } = await supabase
     .from("guests")
-    .insert({ event_id: eventId, name, source: "self" })
+    // Se agrega pendiente: el organizador lo aprueba desde el dashboard.
+    .insert({ event_id: eventId, name, phone, source: "self", approved: false })
     .select("id")
     .single();
 

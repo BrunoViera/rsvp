@@ -2,7 +2,7 @@ import type { GuestRow } from "@/lib/types";
 import CopyLinkButton from "./copy-link-button";
 import WhatsappButton from "./whatsapp-button";
 import AddGuestForm from "./add-guest-form";
-import { addGuest, deleteGuest } from "./guests-actions";
+import { addGuest, deleteGuest, approveGuest } from "./guests-actions";
 
 const STATUS_LABEL: Record<GuestRow["rsvp_status"], string> = {
   pending: "Pendiente",
@@ -81,8 +81,14 @@ export default function GuestList({
 }) {
   const addGuestWithId = addGuest.bind(null, eventId);
   const deleteGuestWithId = deleteGuest.bind(null, eventId);
+  const approveGuestWithId = approveGuest.bind(null, eventId);
 
-  const confirmedCount = guests.filter(
+  // Los que se agregaron solos esperan el visto bueno del organizador y van
+  // en su propia sección, arriba de la lista.
+  const awaiting = guests.filter((g) => !g.approved);
+  const approved = guests.filter((g) => g.approved);
+
+  const confirmedCount = approved.filter(
     (g) => g.rsvp_status === "confirmed"
   ).length;
 
@@ -90,20 +96,67 @@ export default function GuestList({
     <div className="card mt-6">
       <div className="flex items-center justify-between">
         <h2 className="font-display text-xl font-semibold text-ink">
-          Invitados ({guests.length})
+          Invitados ({approved.length})
         </h2>
         <span className="text-sm text-sage">{confirmedCount} confirmados</span>
       </div>
 
       <AddGuestForm action={addGuestWithId} />
 
+      {awaiting.length > 0 && (
+        <div className="mt-6 rounded-xl border border-marigold/40 bg-marigold/5 p-4">
+          <h3 className="font-display text-sm font-semibold text-ink">
+            Solicitudes pendientes ({awaiting.length})
+          </h3>
+          <p className="mt-1 text-xs text-ink/55">
+            Se agregaron desde el link de la lista. No cuentan como invitados
+            hasta que los apruebes.
+          </p>
+
+          <div className="mt-3 flex flex-col gap-2">
+            {awaiting.map((guest) => (
+              <div
+                key={guest.id}
+                className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-line/70 bg-white px-3 py-2"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium text-ink">{guest.name}</p>
+                  {guest.phone && (
+                    <p className="text-xs text-ink/55">{guest.phone}</p>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <form action={approveGuestWithId.bind(null, guest.id)}>
+                    <button
+                      type="submit"
+                      className="rounded-full bg-sage/15 px-3 py-1 text-xs font-medium text-sage transition hover:bg-sage/25"
+                    >
+                      Aprobar
+                    </button>
+                  </form>
+                  <form action={deleteGuestWithId.bind(null, guest.id)}>
+                    <button
+                      type="submit"
+                      aria-label={`Rechazar a ${guest.name}`}
+                      className="rounded-full px-3 py-1 text-xs font-medium text-coral/70 transition hover:bg-coral/10 hover:text-coral"
+                    >
+                      Rechazar
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-6 flex flex-col gap-2">
-        {guests.length === 0 && (
+        {approved.length === 0 && (
           <p className="py-4 text-sm text-ink/50">
             Todavía no agregaste invitados.
           </p>
         )}
-        {guests.map((guest) => (
+        {approved.map((guest) => (
           <div
             key={guest.id}
             className="flex flex-col rounded-xl border border-line/70 p-4 transition hover:border-line"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import PhoneInput from "./phone-input";
+import PhoneInput from "@/app/_components/phone-input";
 
 /** Form de alta de invitado. Es cliente para poder devolver el foco al nombre
  *  después de agregar, y así encadenar altas sin tocar el mouse. */

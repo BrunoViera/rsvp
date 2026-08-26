@@ -38,6 +38,7 @@ export default async function ConfirmadosPage({
     .select("*")
     .eq("event_id", event.id)
     .eq("rsvp_status", "confirmed")
+    .eq("approved", true)
     .order("name", { ascending: true })
     .returns<GuestRow[]>();
 

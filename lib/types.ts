@@ -25,6 +25,7 @@ export interface GuestRow {
   description: string | null;
   dietary_restrictions: string | null;
   rsvp_status: RsvpStatus;
+  approved: boolean;
   rsvp_token: string;
   source: GuestSource;
   responded_at: string | null;

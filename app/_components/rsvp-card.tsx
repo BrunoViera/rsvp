@@ -99,6 +99,13 @@ export default async function RsvpCard({
         </a>
       </div>
 
+      {!guest.approved && (
+        <div className="rounded-card border border-marigold/40 bg-marigold/5 px-4 py-3 text-sm text-ink/70">
+          Tu solicitud está pendiente de aprobación. Podés confirmar tu
+          asistencia igual; quien organiza la va a revisar.
+        </div>
+      )}
+
       <div className="card">
         <p className="text-sm text-ink/60">Hola,</p>
         <h2 className="font-display text-xl font-semibold text-ink">

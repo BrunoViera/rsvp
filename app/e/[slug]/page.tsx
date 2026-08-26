@@ -49,6 +49,7 @@ export default async function RsvpListaPage({
     .from("guests")
     .select("id, name")
     .eq("event_id", event.id)
+    .eq("approved", true)
     .order("name", { ascending: true });
 
   return (
