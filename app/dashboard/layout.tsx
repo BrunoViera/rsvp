@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions";
 import { esAdmin } from "@/lib/admin";
+import Logo from "@/app/_components/logo";
 
 export default async function DashboardLayout({
   children,
@@ -18,9 +19,9 @@ export default async function DashboardLayout({
       <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-line px-4 py-3 sm:px-6 sm:py-4">
         <Link
           href="/dashboard"
-          className="whitespace-nowrap font-display text-lg font-semibold text-ink hover:text-ink/80"
+          className="whitespace-nowrap text-ink transition hover:text-ink/80"
         >
-          El cumple de
+          <Logo iconClassName="h-6 w-6" />
         </Link>
         <div className="flex items-center gap-3 sm:gap-4">
           <Link

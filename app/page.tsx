@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import CtaLink from "./_components/cta-link";
+import Logo from "./_components/logo";
 
 const PASOS = [
   {
@@ -114,9 +115,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <span className="font-display text-lg font-semibold text-ink">
-          El cumple de
-        </span>
+        <Logo className="text-ink" />
         <CtaLink href="/login" ubicacion="header" className="btn-secondary">
           Ingresar
         </CtaLink>
@@ -271,9 +270,7 @@ export default function Home() {
 
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-6 py-10 text-center">
-          <p className="font-display text-lg font-semibold text-ink">
-            El cumple de
-          </p>
+          <Logo className="text-ink" />
           <p className="max-w-md text-sm text-ink/55">
             Invitaciones y confirmaciones para cumpleaños, sin planillas ni
             grupos interminables.
