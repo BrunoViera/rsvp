@@ -19,7 +19,7 @@ export async function geocodeAddress(query: string): Promise<GeoPoint | null> {
 
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "CumpleRSVP/1.0 (proyecto personal, sin fines comerciales)",
+        "User-Agent": "ElCumpleDe/1.0 (+https://elcumplede.com)",
         "Accept-Language": "es",
       },
       next: { revalidate: 3600 },

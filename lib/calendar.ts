@@ -34,12 +34,12 @@ function escapeIcsText(text: string): string {
 
 export function buildIcsDataUri(event: EventRow): string {
   const { start, end } = getEventRange(event);
-  const uid = `${event.id}@cumple-rsvp`;
+  const uid = `${event.id}@elcumplede.com`;
 
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Cumple RSVP//ES",
+    "PRODID:-//El cumple de//ES",
     "CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
     `UID:${uid}`,

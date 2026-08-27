@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "CumpleRSVP/1.0 (proyecto personal, sin fines comerciales)",
+        "User-Agent": "ElCumpleDe/1.0 (+https://elcumplede.com)",
         "Accept-Language": "es",
       },
       // Cachea la misma búsqueda por un rato para no golpear Nominatim de más

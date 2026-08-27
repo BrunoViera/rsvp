@@ -20,7 +20,7 @@ export default async function DashboardLayout({
           href="/dashboard"
           className="whitespace-nowrap font-display text-lg font-semibold text-ink hover:text-ink/80"
         >
-          Cumple RSVP
+          El cumple de
         </Link>
         <div className="flex items-center gap-3 sm:gap-4">
           <Link

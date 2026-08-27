@@ -15,7 +15,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const TITULO = "Cumple RSVP";
+const TITULO = "El cumple de";
 const DESCRIPCION =
   "Invitá con un link y mirá quién confirma. Gratis, y tus invitados no tienen que crear cuenta.";
 

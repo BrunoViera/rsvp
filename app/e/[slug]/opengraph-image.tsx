@@ -80,7 +80,7 @@ export default async function Image({
             color: "rgba(33,25,52,0.45)",
           }}
         >
-          Confirmá tu asistencia · Cumple RSVP
+          Confirmá tu asistencia · elcumplede.com
         </div>
       </div>
     ),

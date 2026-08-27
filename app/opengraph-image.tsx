@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Cumple RSVP";
+export const alt = "El cumple de";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -42,7 +42,7 @@ export default function Image() {
             color: "rgba(33,25,52,0.5)",
           }}
         >
-          Cumple RSVP · Invitá con un link y mirá quién confirma
+          elcumplede.com · Invitá con un link y mirá quién confirma
         </div>
       </div>
     ),

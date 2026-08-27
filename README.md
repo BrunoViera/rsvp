@@ -1,4 +1,6 @@
-# Cumple RSVP
+# El cumple de
+
+**https://elcumplede.com**
 
 Sistema para crear eventos de cumpleaños, cargar invitados y llevar el control de confirmaciones (RSVP). Construido con Next.js (App Router) + Supabase, pensado para desplegarse en Vercel.
 
