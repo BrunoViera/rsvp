@@ -21,7 +21,7 @@ export default async function DashboardLayout({
           href="/dashboard"
           className="whitespace-nowrap text-ink transition hover:text-ink/80"
         >
-          <Logo iconClassName="h-6 w-6" />
+          <Logo iconClassName="h-9 w-9" />
         </Link>
         <div className="flex items-center gap-3 sm:gap-4">
           <Link

@@ -21,7 +21,7 @@ export function Guirnalda({ className }: { className?: string }) {
 /** Logo completo: símbolo + nombre. */
 export default function Logo({
   className,
-  iconClassName = "h-7 w-7",
+  iconClassName = "h-10 w-10",
 }: {
   className?: string;
   iconClassName?: string;
@@ -29,7 +29,7 @@ export default function Logo({
   return (
     <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
       <Guirnalda className={`${iconClassName} shrink-0`} />
-      <span className="font-display text-lg font-semibold">El cumple de</span>
+      <span className="font-display text-xl font-semibold">El cumple de</span>
     </span>
   );
 }
