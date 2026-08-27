@@ -3,8 +3,15 @@
   Se pega en: Supabase > Authentication > Email Templates > Magic Link.
   Asunto sugerido: Tu acceso a El cumple de
 
-  Variables disponibles: {{ .ConfirmationURL }} (el link de acceso),
-  {{ .Email }}, {{ .SiteURL }}, {{ .Token }} (código de 6 dígitos).
+  IMPORTANTE: el link NO usa {{ .ConfirmationURL }}. Ese valor por defecto
+  pasa por /auth/v1/verify de Supabase, que devuelve la sesión en el fragmento
+  de la URL (#access_token=...). El fragmento nunca se envía al servidor, así
+  que el callback se quedaba sin datos y siempre respondía "link_invalido".
+  En su lugar el link apunta directo a nuestro callback con {{ .TokenHash }},
+  que sí viaja como query param y se canjea con verifyOtp.
+
+  Variables disponibles: {{ .TokenHash }}, {{ .SiteURL }}, {{ .Email }},
+  {{ .Token }} (código de 6 dígitos), {{ .ConfirmationURL }}.
 
   Los estilos van en línea a propósito: los clientes de correo (sobre todo
   Gmail) descartan las hojas de estilo y buena parte de CSS moderno.
@@ -56,7 +63,7 @@
               <tr>
                 <td style="background-color:#F2A93B;border-radius:999px;">
                   <a
-                    href="{{ .ConfirmationURL }}"
+                    href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard"
                     style="display:inline-block;padding:13px 28px;font-size:15px;font-weight:600;color:#211934;text-decoration:none;"
                   >
                     Entrar a mi cuenta
@@ -71,7 +78,7 @@
         <tr>
           <td style="font-size:13px;line-height:1.6;color:rgba(33,25,52,0.5);padding-bottom:24px;">
             Si el botón no funciona, copiá y pegá esta dirección en tu navegador:<br />
-            <a href="{{ .ConfirmationURL }}" style="color:#3F7C59;word-break:break-all;">{{ .ConfirmationURL }}</a>
+            <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard" style="color:#3F7C59;word-break:break-all;">{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard</a>
           </td>
         </tr>
 

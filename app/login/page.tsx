@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -9,6 +10,30 @@ export default function LoginPage() {
     "idle"
   );
   const [errorMsg, setErrorMsg] = useState("");
+  const router = useRouter();
+
+  // Red de seguridad: si la sesión llega en el fragmento de la URL
+  // (#access_token=...), el servidor no la ve y el callback redirige acá con
+  // error. El cliente sí puede leer el fragmento, así que se rescata la sesión
+  // y se entra igual en vez de mostrarle un error a alguien que hizo todo bien.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash.includes("access_token")) return;
+
+    const params = new URLSearchParams(hash.slice(1));
+    const access_token = params.get("access_token");
+    const refresh_token = params.get("refresh_token");
+    if (!access_token || !refresh_token) return;
+
+    const supabase = createClient();
+    supabase.auth
+      .setSession({ access_token, refresh_token })
+      .then(({ error }) => {
+        if (error) return;
+        window.history.replaceState(null, "", window.location.pathname);
+        router.replace("/dashboard");
+      });
+  }, [router]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
