@@ -1,0 +1,100 @@
+<!--
+  Plantilla del email de acceso (Magic Link).
+  Se pega en: Supabase > Authentication > Email Templates > Magic Link.
+  Asunto sugerido: Tu acceso a El cumple de
+
+  Variables disponibles: {{ .ConfirmationURL }} (el link de acceso),
+  {{ .Email }}, {{ .SiteURL }}, {{ .Token }} (código de 6 dígitos).
+
+  Los estilos van en línea a propósito: los clientes de correo (sobre todo
+  Gmail) descartan las hojas de estilo y buena parte de CSS moderno.
+-->
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#FFF8EC;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <tr>
+    <td align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:480px;background-color:#ffffff;border:1px solid #E7DFCF;border-radius:20px;padding:32px;">
+
+        <!-- Logo -->
+        <tr>
+          <td style="padding-bottom:24px;">
+            <table cellpadding="0" cellspacing="0" role="presentation">
+              <tr>
+                <td style="vertical-align:middle;padding-right:10px;">
+                  <!-- PNG y no SVG: Gmail y varios clientes no renderizan SVG -->
+                  <img
+                    src="https://elcumplede.com/logo-email.png"
+                    width="34"
+                    height="34"
+                    alt=""
+                    style="display:block;border:0;"
+                  />
+                </td>
+                <td style="vertical-align:middle;font-size:19px;font-weight:600;color:#211934;">
+                  El cumple de
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Mensaje -->
+        <tr>
+          <td style="font-size:22px;font-weight:600;color:#211934;padding-bottom:12px;">
+            Tu acceso está listo
+          </td>
+        </tr>
+        <tr>
+          <td style="font-size:15px;line-height:1.6;color:rgba(33,25,52,0.7);padding-bottom:28px;">
+            Tocá el botón para entrar a tu cuenta. No hace falta contraseña.
+          </td>
+        </tr>
+
+        <!-- Botón -->
+        <tr>
+          <td style="padding-bottom:28px;">
+            <table cellpadding="0" cellspacing="0" role="presentation">
+              <tr>
+                <td style="background-color:#F2A93B;border-radius:999px;">
+                  <a
+                    href="{{ .ConfirmationURL }}"
+                    style="display:inline-block;padding:13px 28px;font-size:15px;font-weight:600;color:#211934;text-decoration:none;"
+                  >
+                    Entrar a mi cuenta
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Link de respaldo: algunos clientes bloquean los botones -->
+        <tr>
+          <td style="font-size:13px;line-height:1.6;color:rgba(33,25,52,0.5);padding-bottom:24px;">
+            Si el botón no funciona, copiá y pegá esta dirección en tu navegador:<br />
+            <a href="{{ .ConfirmationURL }}" style="color:#3F7C59;word-break:break-all;">{{ .ConfirmationURL }}</a>
+          </td>
+        </tr>
+
+        <!-- Aviso de seguridad -->
+        <tr>
+          <td style="border-top:1px solid #E7DFCF;padding-top:20px;font-size:13px;line-height:1.6;color:rgba(33,25,52,0.5);">
+            El link vence en una hora y se puede usar una sola vez.
+            Si no pediste entrar, podés ignorar este correo.
+          </td>
+        </tr>
+
+      </table>
+
+      <!-- Pie -->
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:480px;padding-top:20px;">
+        <tr>
+          <td align="center" style="font-size:12px;color:rgba(33,25,52,0.4);">
+            <a href="https://elcumplede.com" style="color:rgba(33,25,52,0.5);text-decoration:none;">elcumplede.com</a>
+            · Invitá con un link y mirá quién confirma
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
