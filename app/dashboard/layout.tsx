@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions";
 import { esAdmin } from "@/lib/admin";
 import Logo from "@/app/_components/logo";
+import SubmitButton from "@/app/_components/submit-button";
 
 export default async function DashboardLayout({
   children,
@@ -51,9 +52,9 @@ export default async function DashboardLayout({
             </span>
           )}
           <form action={signOut}>
-            <button type="submit" className="btn-secondary px-4">
+            <SubmitButton className="btn-secondary px-4" pendingText="Saliendo…">
               Salir
-            </button>
+            </SubmitButton>
           </form>
         </div>
       </header>

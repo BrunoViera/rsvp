@@ -1,5 +1,6 @@
 import type { CollaboratorRow } from "@/lib/types";
 import { inviteCollaborator, removeCollaborator } from "./collaborators-actions";
+import SubmitButton from "@/app/_components/submit-button";
 
 export default function Collaborators({
   eventId,
@@ -32,9 +33,12 @@ export default function Collaborators({
           placeholder="email@ejemplo.com"
           className="field sm:flex-1"
         />
-        <button type="submit" className="btn-secondary whitespace-nowrap">
+        <SubmitButton
+          className="btn-secondary whitespace-nowrap"
+          pendingText="Invitando…"
+        >
           + Invitar
-        </button>
+        </SubmitButton>
       </form>
 
       <div className="mt-4 flex flex-col divide-y divide-line">
@@ -60,12 +64,12 @@ export default function Collaborators({
                 {c.status === "accepted" ? "Activo" : "Invitación pendiente"}
               </span>
               <form action={removeWithId.bind(null, c.id)}>
-                <button
-                  type="submit"
+                <SubmitButton
                   className="text-xs text-coral/70 hover:text-coral"
+                  pendingText="Quitando…"
                 >
                   Quitar
-                </button>
+                </SubmitButton>
               </form>
             </div>
           </div>

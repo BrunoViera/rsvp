@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PhoneInput from "@/app/_components/phone-input";
+import SubmitButton from "@/app/_components/submit-button";
 import type { GuestRow } from "@/lib/types";
 
 const STATUS_OPTIONS: { value: GuestRow["rsvp_status"]; label: string }[] = [
@@ -78,9 +79,9 @@ export default function EditGuestForm({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <button type="submit" className="btn-primary text-xs">
+        <SubmitButton className="btn-primary text-xs" pendingText="Guardando…">
           Guardar
-        </button>
+        </SubmitButton>
         <button
           type="button"
           onClick={onCancel}

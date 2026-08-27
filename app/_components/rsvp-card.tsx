@@ -3,6 +3,7 @@ import { resolveEventPoint } from "@/lib/geocode";
 import { buildGoogleCalendarUrl, buildIcsDataUri, buildDirectionsUrl } from "@/lib/calendar";
 import { isRsvpOpen } from "@/lib/event-timing";
 import MapEmbed from "./map-embed";
+import RsvpButtons from "./rsvp-buttons";
 
 function formatFecha(iso: string | null) {
   if (!iso) return "Fecha a confirmar";
@@ -156,24 +157,7 @@ export default async function RsvpCard({
               />
             </div>
 
-            <div className="flex gap-3">
-              <button
-                type="submit"
-                name="status"
-                value="confirmed"
-                className="btn-primary flex-1"
-              >
-                Sí, voy 🎉
-              </button>
-              <button
-                type="submit"
-                name="status"
-                value="declined"
-                className="btn-secondary flex-1"
-              >
-                No puedo ir
-              </button>
-            </div>
+            <RsvpButtons />
           </form>
         ) : (
           <div className="mt-4 rounded-xl bg-ink/5 px-4 py-3 text-sm text-ink/60">

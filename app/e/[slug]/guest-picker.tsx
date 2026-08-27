@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import PhoneInput from "@/app/_components/phone-input";
+import SubmitButton from "@/app/_components/submit-button";
 
 type GuestOption = { id: string; name: string };
 
@@ -82,9 +83,12 @@ export default function GuestPicker({
           <p className="text-xs text-ink/55">
             Quien organiza tiene que aprobar tu solicitud.
           </p>
-          <button type="submit" className="btn-secondary self-start">
+          <SubmitButton
+            className="btn-secondary self-start"
+            pendingText="Agregando…"
+          >
             Agregarme
-          </button>
+          </SubmitButton>
         </form>
       )}
     </div>

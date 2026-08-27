@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import type { CollaboratorRow, EventRow } from "@/lib/types";
 import { acceptInvitation } from "./actions";
+import SubmitButton from "@/app/_components/submit-button";
 
 export default async function InvitacionesPage() {
   const supabase = await createClient();
@@ -37,9 +38,9 @@ export default async function InvitacionesPage() {
               {inv.event?.name ?? "Evento"}
             </span>
             <form action={acceptInvitation.bind(null, inv.id)}>
-              <button type="submit" className="btn-primary py-2">
+              <SubmitButton className="btn-primary py-2" pendingText="Aceptando…">
                 Aceptar
-              </button>
+              </SubmitButton>
             </form>
           </div>
         ))}

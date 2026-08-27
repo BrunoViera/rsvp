@@ -5,6 +5,7 @@ import type { GuestRow } from "@/lib/types";
 import CopyLinkButton from "./copy-link-button";
 import WhatsappButton from "./whatsapp-button";
 import EditGuestForm from "./edit-guest-form";
+import SubmitButton from "@/app/_components/submit-button";
 import { StatusIcon, NoteIcon, TrashIcon, PencilIcon } from "./guest-icons";
 import { STATUS_LABEL, STATUS_CLASS, formatRespondedAt } from "./guest-meta";
 
@@ -117,14 +118,14 @@ export default function GuestCard({
           Editar
         </button>
         <form action={deleteAction}>
-              <button
-                type="submit"
-                aria-label={`Eliminar a ${guest.name}`}
+              <SubmitButton
+                ariaLabel={`Eliminar a ${guest.name}`}
                 className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-coral/30 px-3 py-1 text-xs font-medium text-coral/80 transition hover:bg-coral/10 hover:text-coral"
+                pendingText="Eliminando…"
               >
                 <TrashIcon className="h-3.5 w-3.5" />
                 Eliminar
-              </button>
+              </SubmitButton>
             </form>
           </div>
         )}

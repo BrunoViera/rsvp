@@ -7,6 +7,7 @@ import {
   updateGuest,
 } from "./guests-actions";
 import GuestCard from "./guest-card";
+import SubmitButton from "@/app/_components/submit-button";
 
 export default function GuestList({
   eventId,
@@ -81,21 +82,21 @@ export default function GuestList({
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <form action={approveGuestWithId.bind(null, guest.id)}>
-                    <button
-                      type="submit"
+                    <SubmitButton
                       className="rounded-full bg-sage/15 px-3 py-1 text-xs font-medium text-sage transition hover:bg-sage/25"
+                      pendingText="Aprobando…"
                     >
                       Aprobar
-                    </button>
+                    </SubmitButton>
                   </form>
                   <form action={deleteGuestWithId.bind(null, guest.id)}>
-                    <button
-                      type="submit"
-                      aria-label={`Rechazar a ${guest.name}`}
+                    <SubmitButton
+                      ariaLabel={`Rechazar a ${guest.name}`}
                       className="rounded-full px-3 py-1 text-xs font-medium text-coral/70 transition hover:bg-coral/10 hover:text-coral"
+                      pendingText="Rechazando…"
                     >
                       Rechazar
-                    </button>
+                    </SubmitButton>
                   </form>
                 </div>
               </div>

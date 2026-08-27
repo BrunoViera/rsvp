@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import PhoneInput from "@/app/_components/phone-input";
+import SubmitButton from "@/app/_components/submit-button";
 
 /** Form de alta de invitado. Es cliente para poder devolver el foco al nombre
  *  después de agregar, y así encadenar altas sin tocar el mouse. */
@@ -32,9 +33,12 @@ export default function AddGuestForm({
         <div className="sm:flex-1">
           <PhoneInput name="phone" />
         </div>
-        <button type="submit" className="btn-secondary whitespace-nowrap">
+        <SubmitButton
+          className="btn-secondary whitespace-nowrap"
+          pendingText="Agregando…"
+        >
           + Agregar
-        </button>
+        </SubmitButton>
       </div>
     </form>
   );

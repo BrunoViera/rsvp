@@ -89,9 +89,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={status === "loading"}
-              className="btn-primary"
+              aria-busy={status === "loading"}
+              className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {status === "loading" ? "Enviando..." : "Enviarme el link"}
+              {status === "loading" ? "Enviando…" : "Enviarme el link"}
             </button>
           </form>
         )}

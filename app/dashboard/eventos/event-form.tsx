@@ -1,5 +1,6 @@
 import type { EventRow } from "@/lib/types";
 import LocationPicker from "@/app/_components/location-picker";
+import SubmitButton from "@/app/_components/submit-button";
 
 function toDateInputValue(iso: string | null): string {
   if (!iso) return "";
@@ -136,9 +137,12 @@ export default function EventForm({
         />
       </div>
 
-      <button type="submit" className="btn-primary self-start">
+      <SubmitButton
+        className="btn-primary self-start"
+        pendingText={event ? "Guardando…" : "Creando…"}
+      >
         {event ? "Guardar cambios" : "Crear evento"}
-      </button>
+      </SubmitButton>
     </form>
   );
 }
