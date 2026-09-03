@@ -1,7 +1,9 @@
 "use client";
 
+import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import CampaignTracker from "./campaign-tracker";
 
 /** Reemplaza los identificadores de la URL por su nombre de ruta antes de
  *  reportarla. Sin esto se enviarían tokens de invitación (que sirven para
@@ -21,6 +23,11 @@ export default function SiteAnalytics() {
     <>
       <Analytics beforeSend={(event) => ({ ...event, url: enmascararUrl(event.url) })} />
       <SpeedInsights beforeSend={(data) => ({ ...data, url: enmascararUrl(data.url) })} />
+      {/* useSearchParams necesita un límite de Suspense para no forzar
+          renderizado dinámico en toda la app. */}
+      <Suspense fallback={null}>
+        <CampaignTracker />
+      </Suspense>
     </>
   );
 }
