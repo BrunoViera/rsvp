@@ -25,9 +25,9 @@ export default function GuestPicker({
   }, [guests, query]);
 
   return (
-    <div className="card mt-6">
+    <div className="card">
       <label className="mb-1 block text-sm font-medium text-ink/80">
-        Buscá tu nombre en la lista
+        Buscá tu nombre para confirmar
       </label>
       <input
         type="text"

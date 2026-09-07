@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, GuestRow } from "@/lib/types";
 import RsvpCard from "@/app/_components/rsvp-card";
+import EventDetails from "@/app/_components/event-details";
 import GuestPicker from "./guest-picker";
 import { addSelfGuest, submitRsvpBySlug } from "./actions";
 
@@ -105,15 +106,10 @@ export default async function RsvpListaPage({
     .order("name", { ascending: true });
 
   return (
-    <main className="mx-auto min-h-screen max-w-lg px-6 py-12">
-      <div>
-        <h1 className="font-display text-3xl font-semibold text-ink">
-          {event.name}
-        </h1>
-        <p className="mt-1 text-sm text-ink/60">
-          Buscá tu nombre para confirmar tu asistencia.
-        </p>
-      </div>
+    <main className="mx-auto flex min-h-screen w-full max-w-lg flex-col gap-6 px-6 py-12">
+      {/* La misma información que ve quien recibe su link personal: antes acá
+          solo aparecía el buscador de nombres. */}
+      <EventDetails event={event} />
 
       <GuestPicker
         guests={guests ?? []}

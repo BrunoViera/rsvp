@@ -1,17 +1,7 @@
 import type { EventRow, GuestRow } from "@/lib/types";
-import { resolveEventPoint } from "@/lib/geocode";
-import { buildGoogleCalendarUrl, buildIcsDataUri, buildDirectionsUrl } from "@/lib/calendar";
 import { isRsvpOpen } from "@/lib/event-timing";
-import MapEmbed from "./map-embed";
+import EventDetails from "./event-details";
 import RsvpButtons from "./rsvp-buttons";
-
-function formatFecha(iso: string | null) {
-  if (!iso) return "Fecha a confirmar";
-  return new Date(iso).toLocaleString("es-AR", {
-    dateStyle: "full",
-    timeStyle: "short",
-  });
-}
 
 const STATUS_TEXT: Record<GuestRow["rsvp_status"], string> = {
   pending: "Todavía no respondiste",
@@ -28,77 +18,10 @@ export default async function RsvpCard({
   guest: GuestRow;
   action: (formData: FormData) => void;
 }) {
-  const point = await resolveEventPoint(event);
-  const googleCalendarUrl = buildGoogleCalendarUrl(event);
-  const icsDataUri = buildIcsDataUri(event);
   const rsvpOpen = isRsvpOpen(event);
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
-      {event.cover_photo_url && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={event.cover_photo_url}
-          alt={event.name}
-          className="h-48 w-full rounded-card object-cover"
-        />
-      )}
-
-      <div>
-        <p className="text-sm text-ink/50">Estás invitado/a a</p>
-        <h1 className="font-display text-3xl font-semibold text-ink">
-          {event.name}
-        </h1>
-      </div>
-
-      <div className="card flex flex-col gap-2 text-sm">
-        <div>
-          <span className="font-medium text-ink/60">Cuándo: </span>
-          {formatFecha(event.event_date)} ({event.duration_hours} hs)
-        </div>
-        {event.location && (
-          <div>
-            <span className="font-medium text-ink/60">Dónde: </span>
-            {event.location}
-          </div>
-        )}
-        {event.gift_info && (
-          <div>
-            <span className="font-medium text-ink/60">Regalo: </span>
-            {event.gift_info}
-          </div>
-        )}
-      </div>
-
-      {event.location && (
-        <div className="flex flex-col gap-3">
-          {point && <MapEmbed point={point} />}
-          <a
-            href={buildDirectionsUrl(
-              event.location ?? "",
-              point ? { lat: point.lat, lng: point.lon } : null
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary text-center"
-          >
-            Cómo llegar
-          </a>
-        </div>
-      )}
-
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <a
-          href={googleCalendarUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-secondary flex-1 text-center"
-        >
-          + Google Calendar
-        </a>
-        <a href={icsDataUri} download="evento.ics" className="btn-secondary flex-1 text-center">
-          + Descargar .ics
-        </a>
-      </div>
+      <EventDetails event={event} />
 
       {!guest.approved && (
         <div className="rounded-card border border-marigold/40 bg-marigold/5 px-4 py-3 text-sm text-ink/70">
