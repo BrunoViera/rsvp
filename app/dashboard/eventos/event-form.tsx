@@ -1,5 +1,6 @@
 import type { EventRow } from "@/lib/types";
 import LocationPicker from "@/app/_components/location-picker";
+import CoverInput from "@/app/_components/cover-input";
 import SubmitButton from "@/app/_components/submit-button";
 
 function toDateInputValue(iso: string | null): string {
@@ -45,7 +46,7 @@ export default function EventForm({
         <label className="mb-1 block text-sm font-medium text-ink/80">
           Foto de portada {event ? "(opcional, reemplaza la actual)" : "(opcional)"}
         </label>
-        <input type="file" name="cover" accept="image/*" className="field" />
+        <CoverInput />
       </div>
 
       <div>
