@@ -38,8 +38,14 @@ export async function addSelfGuest(
 
   const { data: newGuest, error } = await supabase
     .from("guests")
-    // Se agrega pendiente: el organizador lo aprueba desde el dashboard.
-    .insert({ event_id: eventId, name, phone, source: "self", approved: false })
+    // Pendiente salvo que el evento apruebe solo; si no, lo aprueba el organizador.
+    .insert({
+      event_id: eventId,
+      name,
+      phone,
+      source: "self",
+      approved: event.auto_approve ?? false,
+    })
     .select("id")
     .single();
 

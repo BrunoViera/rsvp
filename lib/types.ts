@@ -14,6 +14,7 @@ export interface EventRow {
   duration_hours: number;
   cover_photo_url: string | null;
   gift_info: string | null;
+  auto_approve: boolean;
   created_at: string;
 }
 
