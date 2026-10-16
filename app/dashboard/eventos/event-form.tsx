@@ -138,6 +138,24 @@ export default function EventForm({
         />
       </div>
 
+      <label className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          name="auto_approve"
+          defaultChecked={event?.auto_approve ?? false}
+          className="mt-1"
+        />
+        <span>
+          <span className="block text-sm font-medium text-ink/80">
+            Aprobar automáticamente a quien se agregue solo
+          </span>
+          <span className="block text-xs text-ink/40">
+            Si no lo marcás, cada persona que se suma desde el link queda
+            pendiente hasta que la apruebes.
+          </span>
+        </span>
+      </label>
+
       <SubmitButton
         className="btn-primary self-start"
         pendingText={event ? "Guardando…" : "Creando…"}

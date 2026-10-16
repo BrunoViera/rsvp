@@ -59,6 +59,7 @@ export async function createEvent(formData: FormData) {
   const time = String(formData.get("time") || "");
   const duration_hours = Number(formData.get("duration_hours") || 3);
   const gift_info = String(formData.get("gift_info") || "").trim() || null;
+  const auto_approve = formData.get("auto_approve") === "on";
   const cover = formData.get("cover") as File | null;
 
   if (!name || !date || !time) {
@@ -89,6 +90,7 @@ export async function createEvent(formData: FormData) {
       event_date: combineDateAndTime(date, time),
       duration_hours,
       gift_info,
+      auto_approve,
       cover_photo_url,
       slug,
     })
@@ -123,6 +125,7 @@ export async function updateEvent(eventId: string, formData: FormData) {
   const time = String(formData.get("time") || "");
   const duration_hours = Number(formData.get("duration_hours") || 3);
   const gift_info = String(formData.get("gift_info") || "").trim() || null;
+  const auto_approve = formData.get("auto_approve") === "on";
   const cover = formData.get("cover") as File | null;
 
   if (!name || !date || !time) {
@@ -157,6 +160,7 @@ export async function updateEvent(eventId: string, formData: FormData) {
     event_date: combineDateAndTime(date, time),
     duration_hours,
     gift_info,
+    auto_approve,
   };
   if (cover_photo_url) updatePayload.cover_photo_url = cover_photo_url;
 
